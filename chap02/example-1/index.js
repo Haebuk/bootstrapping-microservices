@@ -2,7 +2,12 @@ const express = require("express");
 const fs = require('fs');
 
 const app = express();
-const port = 3000;
+
+if (!process.env.PORT) {
+    throw new Error("PORT 번호 환경변수로 써주세요");
+}
+
+const PORT = process.env.PORT;
 
 app.get("/", (req, res) => {
     res.send("hello world!");
@@ -25,6 +30,6 @@ app.get("/video", (req, res) => {
     });
 });
 
-app.listen(port, () => {
-    console.log(`First example app listening on port ${port}, point your browser at http://localhost:3000`);
+app.listen(PORT, () => {
+    console.log(`First example app listening on PORT ${PORT}, point your browser at http://localhost:3000`);
 })
