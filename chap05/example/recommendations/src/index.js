@@ -23,7 +23,7 @@ const RABBIT = process.env.RABBIT;
 // Connect to the database.
 //
 function connectDb() {
-    return mongodb.MongoClient.connect(DBHOST)
+    return mongodb.MongoClient.connect(DBHOST) 
         .then(client => {
             return client.db(DBNAME);
         });
@@ -49,21 +49,20 @@ function connectRabbit() {
 //
 function setupHandlers(app, db, messageChannel) {
 
-    const videosCollection = db.collection("videos");
+    const historyCollection = db.collection("videos");
 
     // ... YOU CAN PUT HTTP ROUTES AND OTHER MESSAGE HANDLERS HERE ...
 
     function consumeViewedMessage(msg) { // Handler for coming messages.
-        console.log("Received a 'viewed' message");
-
         const parsedMsg = JSON.parse(msg.content.toString()); // Parse the JSON message.
+        console.log("Received a 'viewed' message:");
+        console.log(JSON.stringify(parsedMsg, null, 4)); // JUST PRINTING THE RECEIVED MESSAGE.
 
-        return videosCollection.insertOne({ videoPath: parsedMsg.videoPath }) // Record the "view" in the database.
-            .then(() => {
-                console.log("Acknowledging message was handled.");
+        // ... ADD YOUR CODE HERE TO PROCESS THE MESSAGE ...
 
-                messageChannel.ack(msg); // If there is no error, acknowledge the message.
-            });
+        console.log("Acknowledging message was handled.");
+
+        messageChannel.ack(msg); // If there is no error, acknowledge the message.
     };
 
     return messageChannel.assertExchange("viewed", "fanout") // Assert that we have a "viewed" exchange.
