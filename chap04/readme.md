@@ -1,1 +1,5 @@
-`http://localhost:4000/video?path=SampleVideo_1280x720_1mb.mp4`
+http://localhost:4002/video?id=5d9e690ad76fe06a3d7ae416
+
+- db name: video-streaming
+- collection: videos
+- import - json - copy clipboard

@@ -17,7 +17,7 @@ services:
     environment:
       - PORT=80
     volumes:
-      - $HOME/credentials:/home/app/.aws/credentials:ro
+      - $HOME/credentials:/root/.aws/credentials:ro
     restart: 'no'
   video-streaming:
     image: video-streaming

@@ -51,47 +51,8 @@ app.get("/video", (req, res) => {
         Bucket: "bootstrapping-microservices-example",
         Key: "videos/SampleVideo_1280x720_1mb.mp4"
     };
-
-    videoResponse = s3.getObject(params, (err, data) => {
-        const base = new Buffer.from(data.Body.buffer).toString("base64");
-
-        if (err)
-            return res
-                .status(400)
-                .json({ msg: "Unable to fetch video", error: err });
-        else
-            return res.json({
-                msg: "Video fetched",
-                source: base
-            });
-    }
-    );
-
-    // console.log(videoResponse)
-
-    // var file = require('fs').createReadStream('asdasd.mp4');
-    // s3.getObject(params).createReadStream().pipe(file);
-
-    // console.log(s3)
-    // data = run();
-    // res.pipe(data).then(rst => console.log(rst))
-
-    // client.send(command, function (err, properties) {
-    //     if (err) {
-    //         console.error(`Error occurred getting properties for video ${params.Bucket}/${params.Key}.`);
-    //         console.error(err && err.stack || err);
-    //         res.sendStatus(500);
-    //         return;
-    //     }
-
-
-    //     res.writeHead(200, {
-    //         "Content-Length": properties.contentLength,
-    //         "Content-Type": "video/mp4"
-    //     })
-    // })
-    // // console.log(resp)
-    // res.pipe(body)
+    res.contentType = "video/mp4";
+    res.send(s3.getObject(params).createReadStream())
 });
 
 app.listen(PORT, () => {
